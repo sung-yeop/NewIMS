@@ -1,0 +1,100 @@
+.Add {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.Add > .invalid {
+  border: 2px solid rgba(218, 60, 60, 0.5);
+}
+
+.Add .AddItemList {
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+  margin-right: 50px;
+  table {
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+  }
+  caption {
+    font-size: 30px;
+    font-weight: 600;
+    margin: 10px 0;
+    padding: 20px 30px;
+  }
+
+  thead {
+    background-color: #f2f2f2;
+    th {
+      text-align: center;
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+  }
+
+  tbody {
+    text-align: center;
+    tr {
+      border: 1px solid #ddd;
+    }
+    td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+  }
+}
+
+.Add .Add-Input {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  border: 1px solid gray;
+  padding: 10px 10px;
+  align-items: center;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding-left: 30px;
+  .invalid {
+    border: 2px solid red;
+  }
+  span {
+    font-weight: 600;
+    padding: 10px 10px;
+  }
+  input {
+    height: 30px;
+    border: 1px solid rgba(rgb(195, 188, 188), 0.5);
+    border-radius: 5px;
+    &::placeholder {
+      padding-left: 10px;
+      margin-left: 5px;
+    }
+  }
+  button {
+    border: none;
+    height: 32px;
+    padding: 10px 20px;
+    align-items: center;
+    display: flex;
+    margin-left: auto;
+    margin-right: 20px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+      color: rgb(82, 141, 189);
+    }
+  }
+  > .deleteButton {
+    margin-left: 0;
+    background-color: #c65959;
+    &:hover {
+      color: black;
+    }
+  }
+}
