@@ -85,6 +85,26 @@ function reducer(state, action) {
             return item;
           })
         : [...state, action.data];
+    case "UPDATE_ITEM":
+      const index = state.findIndex((item) => item.id === action.data.id);
+      const updateList = [...state];
+      const targetItem = {
+        ...state.find((item) => item.id === action.data.id),
+      };
+      targetItem.location = action.data.updateLocation;
+      targetItem.quantity = action.data.updateQuantity;
+      if (index !== -1) {
+        updateList[index] = {
+          ...updateList[index],
+          quantity:
+            Number(updateList[index].quantity) -
+            Number(action.data.updateQuantity),
+        };
+        updateList.push(targetItem);
+      } else {
+        alert("잘못된 요청입니다.");
+      }
+      return updateList;
   }
 }
 
@@ -120,7 +140,7 @@ function App() {
       data: {
         id: id,
         updateLocation: updateLocation,
-        updateQuantity: updateQuantity,
+        updateQuantity: Number(updateQuantity),
       },
     });
   };
