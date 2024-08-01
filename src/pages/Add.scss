@@ -1,7 +1,6 @@
 .Add {
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
 
 .Add > .invalid {
@@ -13,7 +12,6 @@
   flex-direction: column;
   margin-left: 50px;
   margin-right: 50px;
-  background-color: white;
   table {
     border-collapse: collapse;
     border: 1px solid #ddd;
@@ -38,6 +36,7 @@
 
   tbody {
     text-align: center;
+    background-color: white;
     tr {
       border: 1px solid #ddd;
     }
@@ -65,6 +64,7 @@
     border: 2px solid red;
   }
   span {
+    font-size: 11pt;
     font-weight: 600;
     padding: 10px 10px;
   }
@@ -84,7 +84,6 @@
     align-items: center;
     display: flex;
     margin-left: auto;
-    margin-right: 20px;
     background-color: black;
     color: white;
     border-radius: 5px;

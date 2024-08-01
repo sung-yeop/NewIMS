@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useRef, useEffect, useContext } from "react";
-import { UpdateDispatchContext, UpdateStateContext } from "../pages/Update";
+import { UpdateDispatchContext, UpdateStateContext } from "../../pages/Update";
 
 const UpdateTableData = ({ index, item }) => {
   const { handleInputUpdateData, handleClickUpdateButton } = useContext(
@@ -24,36 +24,44 @@ const UpdateTableData = ({ index, item }) => {
     if (name === "updateQuantity" && !Number(value)) {
       return;
     }
-
     setUpdateItemView({
       ...updateItemView,
       [name]: value,
     });
+  };
 
-    updateItem.current[name] = value;
-
-    if (
-      name === "updateQuantity" &&
-      Number(item.quantity) - Number(updateItem.current.updateQuantity) < 0
-    ) {
+  useEffect(() => {
+    if (Number(item.quantity) - Number(updateItemView.updateQuantity) < 0) {
       alert("수량을 확인해주세요.");
       setUpdateItemView({
         ...updateItemView,
         updateQuantity: "",
       });
-      updateItem.current.updateQuantity = "";
+    } else {
+      updateItem.current = updateItemView;
     }
 
-    handleInputUpdateData(updateItem.current);
-  };
+    if (
+      updateItem.current.updateLocation !== "" &&
+      updateItem.current.updateQuantity !== ""
+    ) {
+      handleInputUpdateData(updateItem.current);
+    }
+  }, [updateItemView]);
 
   useEffect(() => {
-    return () =>
+    return () => {
       setUpdateItemView({
         id: item.id,
         updateLocation: "",
         updateQuantity: "",
       });
+      updateItem.current = {
+        id: item.id,
+        updateLocation: "",
+        updateQuantity: "",
+      };
+    };
   }, [handleClickUpdateButton]);
 
   return (

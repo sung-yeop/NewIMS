@@ -1,5 +1,5 @@
 import React, { useRef, memo, useEffect } from "react";
-import TableData from "../TableData";
+import AddTableData from "./AddTableData";
 
 const AddItemList = ({ addItemList }) => {
   const keyRef = useRef(0);
@@ -39,7 +39,7 @@ const AddItemList = ({ addItemList }) => {
           )} */}
           {addItemList.map((addItem) => {
             return (
-              <TableData
+              <AddTableData
                 key={addItem.barcode + addItem.location}
                 index={indexRef.current++}
                 addItem={addItem}

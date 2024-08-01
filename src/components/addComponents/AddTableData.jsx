@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useRef, memo } from "react";
 import { useContext } from "react";
-import { AddItemDispatchContext } from "../pages/Add";
+import { AddItemDispatchContext } from "../../pages/Add";
 
 const TableData = ({ index, ...rest }) => {
   const keyRef = useRef(0);

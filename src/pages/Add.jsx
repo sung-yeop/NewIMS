@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, createContext } from "react";
 import { useRef, useContext } from "react";
 import { ItemDispatchContext } from "../App";
 import Button from "../components/Button";
-import AddItemList from "../components/ItemManage/AddItemList";
+import AddItemList from "../components/addComponents/AddItemList";
 import "./Add.scss";
 
 export const AddItemDispatchContext = createContext();

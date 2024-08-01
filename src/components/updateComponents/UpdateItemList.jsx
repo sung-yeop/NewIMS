@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { memo } from "react";
-import UpdateTableData from "../UpdateTableData";
+import UpdateTableData from "./UpdateTableData";
+import Button from "../Button";
 
 const UpdateItemList = ({ list }) => {
   const keyRef = useRef(1);

@@ -1,6 +1,6 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { useReducer, createContext, useEffect } from "react";
+import { useReducer, createContext, useEffect, useRef } from "react";
 
 import ItemManage from "./pages/ItemManage";
 import OrderStatus from "./pages/OrderStatus";
@@ -86,25 +86,45 @@ function reducer(state, action) {
           })
         : [...state, action.data];
     case "UPDATE_ITEM":
-      const index = state.findIndex((item) => item.id === action.data.id);
+      const indexBefore = state.findIndex((item) => item.id === action.data.id);
+      const indexAfter = state.findIndex(
+        (item) => item.id === action.data.newId
+      );
       const updateList = [...state];
-      const targetItem = {
-        ...state.find((item) => item.id === action.data.id),
+
+      // 기존 배열 수정
+      updateList[indexBefore] = {
+        ...updateList[indexBefore],
+        quantity:
+          Number(updateList[indexBefore].quantity) -
+          Number(action.data.updateQuantity),
       };
-      targetItem.location = action.data.updateLocation;
-      targetItem.quantity = action.data.updateQuantity;
-      if (index !== -1) {
-        updateList[index] = {
-          ...updateList[index],
+
+      // 새로 추가한 아이템 정리
+      if (indexAfter === -1) {
+        console.log("내부 진입", action.data.newId);
+
+        updateList[updateList.length] = {
+          ...updateList[indexBefore],
+          id: action.data.newId,
+          location: action.data.updateLocation,
+          quantity: action.data.updateQuantity,
+        };
+      } else {
+        updateList[indexAfter] = {
+          ...updateList[indexAfter],
           quantity:
-            Number(updateList[index].quantity) -
+            Number(updateList[indexAfter].quantity) +
             Number(action.data.updateQuantity),
         };
-        updateList.push(targetItem);
-      } else {
-        alert("잘못된 요청입니다.");
       }
-      return updateList;
+
+      state = updateList;
+
+      return state.filter((item) => item.quantity > 0);
+    case "DELETE_ITEM":
+      const deleteItem = state.find((item) => item.id === action.data.id);
+      return state.filter((item) => item !== deleteItem);
   }
 }
 
@@ -114,13 +134,8 @@ export const ItemDispatchContext = createContext();
 function App() {
   const [items, dispatch] = useReducer(reducer, mockItems);
 
-  useEffect(() => {
-    console.log(items);
-  }, [items]);
-
   //Item 조작 function
   const onCreateItem = ({ ...itemInfo }) => {
-    console.log(itemInfo);
     dispatch({
       type: "CREATE_ITEM",
       data: {
@@ -134,23 +149,25 @@ function App() {
     });
   };
 
-  const onUpdateItem = ({ id, updateLocation, updateQuantity }) => {
+  const onUpdateItem = ({ id, newId, updateLocation, updateQuantity }) => {
+    console.log("id : ", id);
+    console.log("newId : ", newId);
     dispatch({
       type: "UPDATE_ITEM",
       data: {
         id: id,
+        newId: newId,
         updateLocation: updateLocation,
         updateQuantity: Number(updateQuantity),
       },
     });
   };
 
-  const onDeleteItem = ({ id, deleteQuantity }) => {
+  const onDeleteItem = (id) => {
     dispatch({
       type: "DELETE_ITEM",
       data: {
         id: id,
-        deleteQuantity: deleteQuantity,
       },
     });
   };
