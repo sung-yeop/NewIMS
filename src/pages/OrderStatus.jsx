@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { OrderItemStateContext } from "./OrderApp";
 
 const OrderStatus = () => {
-  return <div className="OrderStatus">OrderStatus</div>;
+  const test = useContext(OrderItemStateContext);
+  return <div>{test}</div>;
 };
 
 export default OrderStatus;

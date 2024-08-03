@@ -7,8 +7,7 @@ import OrderStatus from "./pages/OrderStatus";
 import Add from "./pages/Add";
 import Delete from "./pages/Delete";
 import Update from "./pages/Update";
-import Order from "./pages/Order";
-import OrderProcess from "./pages/OrderProcess";
+import OrderApp from "./pages/OrderApp";
 import Home from "./pages/Home";
 
 import Navigation from "./components/Navigation";
@@ -32,10 +31,11 @@ const navigationURL = [
   {
     id: 6,
     title: "입고 현황",
-    url: "/OrderStatus",
+    url: "/OrderApp",
     drop: [
-      { id: 7, title: "발주", url: "OrderStatus/Order" },
-      { id: 8, title: "입고", url: "OrderStatus/OrderProcess" },
+      { id: 7, title: "발주", url: "OrderApp/Order" },
+      { id: 8, title: "입고", url: "OrderApp/OrderProcess" },
+      // { id: 9, title: "입고 현황", url: "OrderApp/OrderStatus" },
     ],
   },
 ];
@@ -174,35 +174,18 @@ function App() {
 
   return (
     <div className="App">
-      <div className="Navigation">
-        <section>IMS</section>
-        {navigationURL.map((nav) => {
-          return (
-            <Navigation
-              key={nav.id}
-              name={nav.title}
-              url={nav.url}
-              drop={nav.drop}
-            />
-          );
-        })}
-      </div>
-      <ItemStateContext.Provider value={{ items }}>
+      <ItemStateContext.Provider value={{ items, navigationURL }}>
         <ItemDispatchContext.Provider
           value={{ onCreateItem, onDeleteItem, onUpdateItem }}
         >
+          <Navigation />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/ItemManage" element={<ItemManage />} />
-            <Route path="/OrderStatus" element={<OrderStatus />} />
+            <Route path="/OrderApp/*" element={<OrderApp />} />
             <Route path="/ItemManage/Add" element={<Add />} />
             <Route path="/ItemManage/Delete" element={<Delete />} />
             <Route path="/ItemManage/Update" element={<Update />} />
-            <Route path="/OrderStatus/Order" element={<Order />} />
-            <Route
-              path="/OrderStatus/OrderProcess"
-              element={<OrderProcess />}
-            />
           </Routes>
         </ItemDispatchContext.Provider>
       </ItemStateContext.Provider>
