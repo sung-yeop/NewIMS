@@ -1,13 +1,14 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { useReducer, createContext, useEffect, useRef } from "react";
+import { useReducer, createContext, useEffect, useRef, useState } from "react";
 
 import ItemManage from "./pages/ItemManage";
 import OrderStatus from "./pages/OrderStatus";
 import Add from "./pages/Add";
 import Delete from "./pages/Delete";
 import Update from "./pages/Update";
-import OrderApp from "./pages/OrderApp";
+import Order from "./pages/Order";
+import OrderProcess from "./pages/OrderProcess";
 import Home from "./pages/Home";
 
 import Navigation from "./components/Navigation";
@@ -17,25 +18,52 @@ const navigationURL = [
     id: 1,
     title: "메인 화면",
     url: "/",
+    icon: <i class="ri-home-7-line"></i>,
   },
   {
     id: 2,
     title: "재고 관리",
     url: "/ItemManage",
+    icon: <i class="ri-archive-stack-line"></i>,
     drop: [
-      { id: 3, title: "재고 추가", url: "/ItemManage/Add" },
-      { id: 4, title: "재고 이동", url: "/ItemManage/Update" },
-      { id: 5, title: "재고 삭제", url: "/ItemManage/Delete" },
+      {
+        id: 3,
+        title: "재고 추가",
+        url: "/ItemManage/Add",
+        icon: <i class="ri-add-box-line"></i>,
+      },
+      {
+        id: 4,
+        title: "재고 이동",
+        url: "/ItemManage/Update",
+        icon: <i class="ri-input-method-line"></i>,
+      },
+      {
+        id: 5,
+        title: "재고 삭제",
+        url: "/ItemManage/Delete",
+        icon: <i class="ri-delete-bin-line"></i>,
+      },
     ],
   },
   {
     id: 6,
     title: "입고 현황",
-    url: "/OrderApp",
+    url: "/OrderStatus",
+    icon: <i class="ri-dashboard-line"></i>,
     drop: [
-      { id: 7, title: "발주", url: "OrderApp/Order" },
-      { id: 8, title: "입고", url: "OrderApp/OrderProcess" },
-      // { id: 9, title: "입고 현황", url: "OrderApp/OrderStatus" },
+      {
+        id: 7,
+        title: "발주",
+        url: "/OrderStatus/Order",
+        icon: <i class="ri-add-box-line"></i>,
+      },
+      {
+        id: 8,
+        title: "입고",
+        url: "/OrderStatus/OrderProcess",
+        icon: <i class="ri-input-method-line"></i>,
+      },
     ],
   },
 ];
@@ -71,6 +99,44 @@ const mockItems = mockItemsData.map((item) => {
   };
 });
 
+const mockOrderItemData = [
+  {
+    id: 1000,
+    name: "김치찌개",
+    barcode: "999999",
+    quantity: 30,
+    filledQuantity: 0,
+  },
+]; // 수정
+
+function reducerOrderItem(state, action) {
+  switch (action.type) {
+    case "ORDER_ITEM":
+      const index = state.findIndex(
+        (orderItem) => orderItem.barcode === action.data.barcode
+      );
+      if (index === -1) {
+        state.push(action.data);
+      } else {
+        state[index].quantity += Number(action.data.quantity);
+      }
+      return state;
+    case "PUT_ITEM":
+      return state.map((orderedItem) => {
+        console.log("orderedItem.quantity : ", orderedItem.quantity);
+        if (orderedItem.barcode === action.data.barcode) {
+          return {
+            ...orderedItem,
+            filledQuantity:
+              Number(orderedItem.filledQuantity) + Number(action.data.quantity),
+          };
+        } else {
+          return orderedItem;
+        }
+      });
+  }
+}
+
 function reducer(state, action) {
   switch (action.type) {
     case "CREATE_ITEM":
@@ -93,12 +159,14 @@ function reducer(state, action) {
       const updateList = [...state];
 
       // 기존 배열 수정
-      updateList[indexBefore] = {
-        ...updateList[indexBefore],
-        quantity:
-          Number(updateList[indexBefore].quantity) -
-          Number(action.data.updateQuantity),
-      };
+      if (indexBefore !== -1) {
+        updateList[indexBefore] = {
+          ...updateList[indexBefore],
+          quantity:
+            Number(updateList[indexBefore].quantity) -
+            Number(action.data.updateQuantity),
+        };
+      }
 
       // 새로 추가한 아이템 정리
       if (indexAfter === -1) {
@@ -131,8 +199,16 @@ function reducer(state, action) {
 export const ItemStateContext = createContext();
 export const ItemDispatchContext = createContext();
 
+export const OrderItemStateContext = createContext();
+export const OrderItemDispatchContext = createContext();
+
 function App() {
   const [items, dispatch] = useReducer(reducer, mockItems);
+  const [orderItems, dispatchOrderItem] = useReducer(
+    reducerOrderItem,
+    mockOrderItemData
+  ); // 수정
+  const [orderHistory, setOrderHistory] = useState([]);
 
   //Item 조작 function
   const onCreateItem = ({ ...itemInfo }) => {
@@ -172,21 +248,76 @@ function App() {
     });
   };
 
+  // 수정 OrderItem
+  const onOrderItem = (orderItem) => {
+    dispatchOrderItem({
+      type: "ORDER_ITEM",
+      data: {
+        name: orderItem.name,
+        barcode: orderItem.barcode,
+        quantity: Number(orderItem.quantity),
+        filledQuantity: 0,
+      },
+    });
+  };
+
+  const onPutItem = (putItem) => {
+    setOrderHistory((prevList) => {
+      const newHistory = {
+        name: putItem.name,
+        barcode: putItem.barcode,
+        location: putItem.location,
+        quantity: putItem.quantity,
+        isPut: true,
+        date: new Date().toLocaleString(),
+      };
+      return [...prevList, newHistory];
+    });
+
+    dispatchOrderItem({
+      type: "PUT_ITEM",
+      data: {
+        name: putItem.name,
+        barcode: putItem.barcode,
+        location: putItem.location,
+        quantity: putItem.quantity,
+      },
+    });
+
+    onCreateItem({
+      name: putItem.name,
+      barcode: putItem.barcode,
+      location: putItem.location,
+      quantity: Number(putItem.quantity),
+    });
+  };
+
   return (
     <div className="App">
       <ItemStateContext.Provider value={{ items, navigationURL }}>
         <ItemDispatchContext.Provider
           value={{ onCreateItem, onDeleteItem, onUpdateItem }}
         >
-          <Navigation />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/ItemManage" element={<ItemManage />} />
-            <Route path="/OrderApp/*" element={<OrderApp />} />
-            <Route path="/ItemManage/Add" element={<Add />} />
-            <Route path="/ItemManage/Delete" element={<Delete />} />
-            <Route path="/ItemManage/Update" element={<Update />} />
-          </Routes>
+          <OrderItemStateContext.Provider value={{ orderItems, orderHistory }}>
+            <OrderItemDispatchContext.Provider
+              value={{ onOrderItem, onPutItem, setOrderHistory }}
+            >
+              <Navigation />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/ItemManage" element={<ItemManage />} />
+                <Route path="/OrderStatus" element={<OrderStatus />} />
+                <Route path="/OrderStatus/Order" element={<Order />} />
+                <Route
+                  path="/OrderStatus/OrderProcess"
+                  element={<OrderProcess />}
+                />
+                <Route path="/ItemManage/Add" element={<Add />} />
+                <Route path="/ItemManage/Delete" element={<Delete />} />
+                <Route path="/ItemManage/Update" element={<Update />} />
+              </Routes>
+            </OrderItemDispatchContext.Provider>
+          </OrderItemStateContext.Provider>
         </ItemDispatchContext.Provider>
       </ItemStateContext.Provider>
     </div>

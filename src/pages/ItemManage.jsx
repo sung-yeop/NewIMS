@@ -16,7 +16,6 @@ const ItemManage = () => {
           <ViewCurrentKinds items={items} />
         </div>
       </div>
-      <div>재고 변동 이력</div>
     </div>
   );
 };

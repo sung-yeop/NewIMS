@@ -1,6 +1,8 @@
 .Add {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  padding-top: 40px;
 }
 
 .Add > .invalid {
@@ -24,9 +26,8 @@
   }
 
   thead {
-    background-color: #f2f2f2;
-    background-color: black;
-    color: white;
+    background-color: #fafafa;
+    color: #8e8b90;
     th {
       text-align: center;
       border: 1px solid #ddd;
@@ -36,7 +37,7 @@
 
   tbody {
     text-align: center;
-    background-color: white;
+    background-color: #fefefe;
     tr {
       border: 1px solid #ddd;
     }

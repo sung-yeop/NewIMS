@@ -1,0 +1,208 @@
+// .OrderStatus {
+//   display: flex;
+//   flex-direction: column;
+//   flex: 1;
+//   margin: 50px 30px;
+//   .OrderProgress {
+//     display: flex;
+//     justify-content: center;
+//     gap: 150px;
+//     .totalUnits,
+//     .progressPercent {
+//       display: flex;
+//       justify-content: center;
+//       flex-direction: column;
+//       text-align: center;
+//       width: 250px;
+//       border: 2px solid #ddd;
+//       padding: 20px 30px;
+//       padding-top: 0;
+//       border-radius: 7px;
+//       background-color: #f9f9f9;
+//       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+//       span {
+//         font-size: 2em;
+//         font-weight: bold;
+//         color: #007bff;
+//       }
+//     }
+//   }
+//   .OrderHistory {
+//     display: flex;
+//     flex-direction: column;
+//     margin-top: 30px;
+//     margin-left: 50px;
+//     margin-right: 50px;
+//     h2 {
+//       text-align: left;
+//       font-size: 2rem;
+//       font-weight: 800;
+//     }
+//     table {
+//       border-collapse: collapse;
+//       border: 1px solid #ddd;
+//     }
+//     caption {
+//       font-size: 30px;
+//       font-weight: 600;
+//       margin: 10px 0;
+//       padding: 20px 30px;
+//     }
+
+//     thead {
+//       background-color: #fafafa;
+//       color: #8e8b90;
+//       th {
+//         text-align: center;
+//         border: 1px solid #ddd;
+//         padding: 10px;
+//       }
+//     }
+
+//     tbody {
+//       text-align: center;
+//       background-color: #fefefe;
+//       tr {
+//         border: 1px solid #ddd;
+//       }
+//       td {
+//         padding: 10px;
+//         border: 1px solid #ddd;
+//       }
+//     }
+//   }
+
+//   .OrderList {
+//     display: flex;
+//     flex-direction: column;
+//     margin-top: 30px;
+//     margin-left: 50px;
+//     margin-right: 50px;
+
+//     h2 {
+//       text-align: left;
+//       font-size: 2rem;
+//       font-weight: 800;
+//     }
+//     table {
+//       border-collapse: collapse;
+//       border: 1px solid #ddd;
+//     }
+//     caption {
+//       font-size: 30px;
+//       font-weight: 600;
+//       margin: 10px 0;
+//       padding: 20px 30px;
+//     }
+
+//     thead {
+//       background-color: #fafafa;
+//       color: #8e8b90;
+//       th {
+//         text-align: center;
+//         border: 1px solid #ddd;
+//         padding: 10px;
+//       }
+//     }
+
+//     tbody {
+//       text-align: center;
+//       background-color: #fefefe;
+//       tr {
+//         border: 1px solid #ddd;
+//       }
+//       td {
+//         padding: 10px;
+//         border: 1px solid #ddd;
+//       }
+//     }
+//   }
+// }
+
+.OrderStatus {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin: 50px 30px;
+
+  .OrderProgress {
+    display: flex;
+    justify-content: center;
+    gap: 150px;
+    .totalUnits,
+    .progressPercent {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      width: 250px;
+      border: 2px solid #ddd;
+      padding: 20px 30px;
+      padding-top: 0;
+      border-radius: 7px;
+      background-color: #f9f9f9;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      span {
+        font-size: 2em;
+        font-weight: bold;
+        color: #007bff;
+      }
+    }
+  }
+
+  .OrderHistory,
+  .OrderList {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-left: 50px;
+    margin-right: 50px;
+
+    h2 {
+      text-align: left;
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    .TableContainer {
+      max-height: 300px; /* Adjust this value as needed */
+      overflow-y: auto;
+      border: 1px solid #ddd;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #ddd;
+    }
+
+    caption {
+      font-size: 30px;
+      font-weight: 600;
+      margin: 10px 0;
+      padding: 20px 30px;
+    }
+
+    thead {
+      background-color: #fafafa;
+      color: #8e8b90;
+      th {
+        text-align: center;
+        border: 1px solid #ddd;
+        padding: 10px;
+      }
+    }
+
+    tbody {
+      text-align: center;
+      background-color: #fefefe;
+      tr {
+        border: 1px solid #ddd;
+      }
+      td {
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+    }
+  }
+}

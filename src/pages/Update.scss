@@ -4,6 +4,7 @@
   flex: 1;
   margin-left: 30px;
   margin-right: 30px;
+  padding-top: 40px;
   caption {
     font-weight: 700;
     font-size: 35px;
@@ -45,9 +46,8 @@
   }
 
   thead {
-    background-color: #f2f2f2;
-    background-color: black;
-    color: white;
+    background-color: #fafafa;
+    color: #8e8b90;
     th {
       text-align: center;
       border: 1px solid #ddd;
@@ -57,6 +57,7 @@
 
   tbody {
     text-align: center;
+    background-color: #fefefe;
     tr {
       border: 1px solid #ddd;
     }
