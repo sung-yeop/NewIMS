@@ -1,8 +1,7 @@
-import React, { useRef, memo, useEffect } from "react";
+import React, { useRef, memo, useEffect, useState } from "react";
 import AddTableData from "./AddTableData";
 
 const AddItemList = ({ addItemList }) => {
-  const keyRef = useRef(0);
   const indexRef = useRef(1);
 
   useEffect(() => {
@@ -24,19 +23,6 @@ const AddItemList = ({ addItemList }) => {
           </tr>
         </thead>
         <tbody>
-          {/* {addItemList.length > 0 ? (
-            addItemList.map((addItem) => {
-              return (
-                <TableData
-                  key={addItem.barcode + addItem.location}
-                  index={indexRef.current++}
-                  addItem={addItem}
-                />
-              );
-            })
-          ) : (
-            <TableData key={0} index={indexRef.current++} addItem={[undefined]} />
-          )} */}
           {addItemList.map((addItem) => {
             return (
               <AddTableData

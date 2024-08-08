@@ -1,30 +1,27 @@
-import React, { useEffect } from "react";
-import Button from "../components/Button";
-import { useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom/client";
 import "./Home.scss";
 
 const Home = () => {
-  const [test, setTest] = useState({
-    a: "",
-    b: "",
-  });
-
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setTest({
-      ...test,
-      [name]: value,
-    });
-
-    console.log(test);
-  };
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    console.log(test);
-  }, [test]);
+    console.log("setup (with []) :", count); // 현재 count 값을 로그로 출력
+    return () => {
+      console.log("cleanup (with []) :", count); // cleanup 시점의 count 값을 로그로 출력
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("updated count (with count):", count);
+  }, [count]);
+
+  // Fiber Node를 접근하는 useEffect
 
   return (
-    <div className="Home">
+    <div className="Home" id="example">
+      <p>{count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
       <h1>Inventory Management System</h1>
       <div>
         <span>
@@ -49,5 +46,13 @@ const Home = () => {
     </div>
   );
 };
+
+// React 18을 사용 중인 경우
+const container = document.getElementById("root");
+const root = ReactDOM.createRoot(container);
+root.render(<Home />);
+
+// React 17을 사용 중인 경우
+// ReactDOM.render(<Home />, document.getElementById('root'));
 
 export default Home;
